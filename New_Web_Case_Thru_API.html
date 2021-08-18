@@ -1,0 +1,270 @@
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
+<!--  If necessary, please modify the charset parameter to specify the        -->
+<!--  character set of your HTML page.                                        -->
+<!--  ----------------------------------------------------------------------  -->
+
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: Please add the following <FORM> element to your page.             -->
+<!--  -----------------
+
+-----------------------------------------------------  -->
+
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<script src="https://caltimes--uat.lightning.force.com/soap/ajax/26.0/connection.js" type="text/javascript"></script>
+<script>
+
+
+var subjectObject = {
+  "Restart": {
+    "Restart after vacation hold":["Restart after vacation hold"],
+    "Restart inactive subscription":["Restart inactive subscription"]
+  },
+  "Technical": {
+	"Unable to login after password reset": ["Unable to login after password reset"],
+    "Unable to login with preferred email": ["Unable to login with preferred email"],
+    "Hitting paywall when logged in": ["Hitting paywall when logged in"],
+	"Pop ups and ad inquiry or complaint": ["Pop ups and ad inquiry or complaint"],
+	"Unable to link / unlink from Social": ["Unable to link / unlink from Social"],
+	"Mobile app issue": ["Mobile app issue"],
+	"eNewspaper delivery issue": ["eNewspaper delivery issue"],
+	"Website error or inquiry": ["Website error or inquiry"],
+	"Website error or inquiry": ["Website error or inquiry"],
+	"Unable to register or subscribe": ["Unable to register or subscribe"],
+	"Something else": ["Something else"]
+  },
+   "Print Delivery": {
+    "Something else": ["Something else"],
+    "Delivery issue unresolved": ["Delivery issue unresolved"],
+	"No redelivery received": ["No redelivery received"],
+	"No delivery credit received": ["No delivery credit received"],
+	"Wrong paper received": ["Wrong paper received"],
+	"Delivery not started or restarted": ["Delivery not started or restarted"],
+	"Distributor complaint": ["Distributor complaint"]
+	   
+  },
+   "Billing": {
+    "Something else": ["Something else"],
+    "Rate info": ["Rate info"],
+    "Payment status": ["Payment status"],
+	"Refund status": ["Refund status"],
+	"Billing error or dispute": ["Billing error or dispute"]
+  },
+  
+   "Other": {
+   "Other":["Other"]}
+  
+}
+window.onload = function() {
+  var subjectSel = document.getElementById("00N6w000000gxXw");
+  var topicSel = document.getElementById("00N6w000000gxY1");
+ // var chapterSel = document.getElementById("chapter");
+  for (var x in subjectObject) {
+    subjectSel.options[subjectSel.options.length] = new Option(x, x);
+  }
+  subjectSel.onchange = function() {
+    //empty Chapters- and Topics- dropdowns
+   // chapterSel.length = 1;
+    topicSel.length = 1;
+    //display correct values
+    for (var y in subjectObject[this.value]) {
+      topicSel.options[topicSel.options.length] = new Option(y, y);
+    }
+  }
+  /*topicSel.onchange = function() {
+    //empty Chapters dropdown
+    //chapterSel.length = 1;
+    //display correct values
+    var z = subjectObject[subjectSel.value][this.value];
+    for (var i = 0; i < z.length; i++) {
+      chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+    }
+  }*/
+  
+sforce.connection.sessionId = '0Ak6w00000YRugc';
+//Create account through AJAX
+        var account = new sforce.SObject("Account");
+        account.Name = 'Test Account';        
+        account = sforce.connection.create([account]);
+        var result =  unescape(JSON.stringify(account));
+        var accountId = result.substring(result.indexOf("id:'")+9,result.indexOf("id:'")+27);       
+        console.log(JSON.stringify('accountId: '+accountId));
+    	
+    	//Call the method through AJAX
+        var id = sforce.apex.execute("myClass","makeContact",{lastName:"Smith",a:accountId});    	
+        console.log(JSON.stringify('id: '+id));
+    	document.getElementById('contactId').innerHTML = 'Contact Id: '+id;
+
+  
+}
+</script>
+</head>
+<form action="https://caltimes--uat.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
+
+<input type=hidden name="orgid" value="00D6w0000004aqz">
+<input type=hidden name="retURL" value="http://test.salesforce.com">
+<input type=hidden name="recordType" value="0126w0000000R27">
+
+<!--  ----------------------------------------------------------------------  -->
+<!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
+<!--  these lines if you wish to test in debug mode.                          -->
+<!--  <input type="hidden" name="debug" value=1>                              -->
+<!--  <input type="hidden" name="debugEmail"                                  -->
+<!--  value="kalaivani.kaliyamoorthi@latimes.com">                            -->
+<!--  ----------------------------------------------------------------------  -->
+<table >
+<tr>
+<td>
+</td>
+<td>
+
+<b>Los Angeles Times - Questions or Feedback</b>
+</td>
+</tr>
+
+<tr>
+<td>
+
+Account Number:
+</td>
+<td>
+
+<input  id="00N6w000000gxYf" maxlength="20" name="00N6w000000gxYf" size="20" type="text" /><br>
+</td>
+</tr>
+<tr>
+<td>
+<label for="name">Last Name:</label> <label style="color:red">*</label>
+</td>
+<td><input  id="00N6w000000h2qj" maxlength="255" name="00N6w000000h2qj" size="20" type="text"required /><br>
+</td>
+</tr>
+<tr>
+<td>
+<label for="name">First Name:</label> <label style="color:red">*</label>
+</td>
+<td><input  id="00N6w000000h2qe" maxlength="255" name="00N6w000000h2qe" size="20" type="text" required /><br>
+</td>
+</tr>
+
+
+<tr>
+<td>
+<label for="email">Email:</label> <label style="color:red">*</label>
+</td>
+<td>
+<input  id="email" maxlength="80" name="email" size="20" type="text" required /><br>
+</td>
+</tr>
+<tr>
+<td>
+
+<label for="phone">Phone:</label> <label style="color:red">*</label>
+</td>
+<td>
+<input  id="phone" maxlength="40" name="phone" size="20" type="text"required /><br>
+</td>
+</tr>
+
+<tr>
+<td>
+
+<label for="subject">Subject:</label> <label style="color:red">*</label>
+
+</td>
+<td>
+<input  id="subject" maxlength="80" name="subject" size="20" type="text" required /><br>
+
+</td>
+</tr>
+<tr>
+<td>
+<label for="description">Description:</label> <label style="color:red">*</label>
+</td>
+<td>
+<textarea name="description" required></textarea><br>
+</td>
+</tr>
+</tr>
+<td>
+Category: <label style="color:red">*</label>
+</td>
+<td>
+<select  id="00N6w000000gxXw" name="00N6w000000gxXw" title="Category" required><option value="" selected="selected">--None--</option>
+<!--<option value="Restart">Restart</option>
+<option value="Technical">Technical</option>
+<option value="Print Delivery">Print Delivery</option>
+<option value="Billing">Billing</option>
+<option value="Other">Other</option>-->
+</select><br>
+</td>
+</tr>
+<tr>
+<td>
+
+Sub Categories: <label style="color:red">*</label>
+</td>
+<td>
+<select  id="00N6w000000gxY1" name="00N6w000000gxY1" title="Sub Categories" required><option value="" selected="selected">--None--</option>
+<!--<option value="Restart after vacation hold">Restart after vacation hold</option>
+<option value="Restart inactive subscription">Restart inactive subscription</option>
+<option value="Unable to login after password reset">Unable to login after password reset</option>
+<option value="Unable to login with preferred email">Unable to login with preferred email</option>
+<option value="Hitting paywall when logged in">Hitting paywall when logged in</option>
+<option value="Pop ups and ad inquiry or complaint">Pop ups and ad inquiry or complaint</option>
+<option value="Unable to link / unlink from Social">Unable to link / unlink from Social</option>
+<option value="Mobile app issue">Mobile app issue</option>
+<option value="eNewspaper delivery issue">eNewspaper delivery issue</option>
+<option value="Website error or inquiry">Website error or inquiry</option>
+<option value="Unable to register or subscribe">Unable to register or subscribe</option>
+<option value="Something else">Something else</option>
+<option value="Delivery issue unresolved">Delivery issue unresolved</option>
+<option value="No redelivery received">No redelivery received</option>
+<option value="No delivery credit received">No delivery credit received</option>
+<option value="Wrong paper received">Wrong paper received</option>
+<option value="Delivery not started or restarted">Delivery not started or restarted</option>
+<option value="Distributor complaint">Distributor complaint</option>
+<option value="Rate info">Rate info</option>
+<option value="Payment status">Payment status</option>
+<option value="Refund status">Refund status</option>
+<option value="Billing error or dispute">Billing error or dispute</option>
+<option value="Other">Other</option>-->
+</select><br>
+</td>
+</tr>
+<tr>
+<td>
+Comments:
+</td>
+<td>
+<input  id="00N6w000000gxY6" maxlength="255" name="00N6w000000gxY6" size="20" type="text" /><br>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<input type="submit" name="submit">
+</td>
+<tr>
+</table>
+</form>
