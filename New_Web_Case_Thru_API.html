@@ -106,13 +106,15 @@ sforce.connection.sessionId = '0Ak6w00000YRugc';
         account.Name = 'Test Account';        
         account = sforce.connection.create([account]);
         var result =  unescape(JSON.stringify(account));
+	alert(result);
         var accountId = result.substring(result.indexOf("id:'")+9,result.indexOf("id:'")+27);       
         console.log(JSON.stringify('accountId: '+accountId));
+	alert(accountId);
     	
     	//Call the method through AJAX
-        var id = sforce.apex.execute("myClass","makeContact",{lastName:"Smith",a:accountId});    	
-        console.log(JSON.stringify('id: '+id));
-    	document.getElementById('contactId').innerHTML = 'Contact Id: '+id;
+        //var id = sforce.apex.execute("myClass","makeContact",{lastName:"Smith",a:accountId});    	
+        //console.log(JSON.stringify('id: '+id));
+    	//document.getElementById('contactId').innerHTML = 'Contact Id: '+id;
 
   
 }
